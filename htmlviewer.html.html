@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 7.4.7.2 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="00:00:00"/>
+	<style type="text/css">
+		@page { size: 8.27in 11.69in; margin: 0.79in }
+		p { line-height: 115%; margin-bottom: 0.1in; background: transparent }
+		pre { font-family: "Liberation Mono", monospace; font-size: 10pt; background: transparent }
+	</style>
+</head>
+<body lang="en-US" link="#000080" vlink="#800000" dir="ltr"><pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Scheduler Interface&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+        }
+        h1 {
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        input {
+            margin-right: 10px;
+            padding: 5px;
+        }
+        button {
+            padding: 5px 10px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .card {
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+        &lt;h1&gt;Scheduler Interface&lt;/h1&gt;
+        &lt;div class=&quot;card&quot;&gt;
+            &lt;h2&gt;Add Schedule&lt;/h2&gt;
+            &lt;input type=&quot;text&quot; id=&quot;scheduleLocation&quot; placeholder=&quot;Location&quot; /&gt;
+            &lt;input type=&quot;text&quot; id=&quot;scheduleTime&quot; placeholder=&quot;Time&quot; /&gt;
+            &lt;button onclick=&quot;addSchedule()&quot;&gt;Add Schedule&lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;card&quot;&gt;
+            &lt;h2&gt;Send Notification&lt;/h2&gt;
+            &lt;input type=&quot;text&quot; id=&quot;notificationMessage&quot; placeholder=&quot;Message&quot; /&gt;
+            &lt;input type=&quot;text&quot; id=&quot;notificationTime&quot; placeholder=&quot;Time&quot; /&gt;
+            &lt;button onclick=&quot;sendNotification()&quot;&gt;Send Notification&lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;card&quot;&gt;
+            &lt;h2&gt;Schedules&lt;/h2&gt;
+            &lt;ul id=&quot;schedulesList&quot;&gt;&lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        document.addEventListener('DOMContentLoaded', () =&gt; {
+            loadSchedules();
+        });
+
+        function addSchedule() {
+            const location = document.getElementById('scheduleLocation').value;
+            const time = document.getElementById('scheduleTime').value;
+
+            if (location &amp;&amp; time) {
+                const schedules = JSON.parse(localStorage.getItem('schedules')) || [];
+                schedules.push({ location, time });
+                localStorage.setItem('schedules', JSON.stringify(schedules));
+                document.getElementById('scheduleLocation').value = '';
+                document.getElementById('scheduleTime').value = '';
+                loadSchedules();
+            } else {
+                alert('Please enter both location and time.');
+            }
+        }
+
+        function sendNotification() {
+            const message = document.getElementById('notificationMessage').value;
+            const time = document.getElementById('notificationTime').value;
+
+            if (message &amp;&amp; time) {
+                const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+                notifications.push({ message, time });
+                localStorage.setItem('notifications', JSON.stringify(notifications));
+                document.getElementById('notificationMessage').value = '';
+                document.getElementById('notificationTime').value = '';
+                loadSchedules();  // Optional: refresh the schedule list
+            } else {
+                alert('Please enter both message and time.');
+            }
+        }
+
+        function loadSchedules() {
+            const schedules = JSON.parse(localStorage.getItem('schedules')) || [];
+            const schedulesList = document.getElementById('schedulesList');
+            schedulesList.innerHTML = schedules.map(schedule =&gt; 
+                `&lt;li&gt;${schedule.location} at ${schedule.time}&lt;/li&gt;`
+            ).join('');
+        }
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+</pre>
+</body>
+</html>
